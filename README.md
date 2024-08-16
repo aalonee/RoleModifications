@@ -1,4 +1,5 @@
 # RoleModifications
+All the Enums can be found here: https://discord.com/channels/656673194693885975/1081923065866363002
 ## Config example:
 ```yaml
 RoleModifications:
