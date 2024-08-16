@@ -23,7 +23,7 @@ namespace RoleModifications
             var role = e.Player.Role;
             if (role.Type == RoleTypeId.Tutorial && config.GodmodeTutorial)
                 e.Player.IsGodModeEnabled = true;
-            if (config.SpawnRoom.TryGetValue(role, out var room))
+            if (config.SpawnRoom.TryGetValue(role, out var room) && role.SpawnFlags.HasFlag(RoleSpawnFlags.UseSpawnpoint))
             {
                 e.Player.Teleport(room);
             }
@@ -31,7 +31,7 @@ namespace RoleModifications
             {
                 e.Player.Health = health;
             }
-            if (config.Inventory.TryGetValue(role, out var inventory))
+            if (config.Inventory.TryGetValue(role, out var inventory) && role.SpawnFlags.HasFlag(RoleSpawnFlags.AssignInventory))
             {
                 e.Player.ClearItems();
                 inventory.ForEach(item => e.Player.AddItem(item));
