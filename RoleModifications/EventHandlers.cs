@@ -23,7 +23,11 @@ namespace RoleModifications
             var role = e.Player.Role;
             if (role.Type == RoleTypeId.Tutorial && config.GodmodeTutorial)
                 e.Player.IsGodModeEnabled = true;
-            if (config.SpawnRoom.TryGetValue(role, out var room) && role.SpawnFlags.HasFlag(RoleSpawnFlags.UseSpawnpoint))
+            if (config.SpawnCoordinates.TryGetValue(role, out var coords) && role.SpawnFlags.HasFlag(RoleSpawnFlags.UseSpawnpoint))
+            {
+                e.Player.Teleport(coords);
+            }
+            else if (config.SpawnRoom.TryGetValue(role, out var room) && role.SpawnFlags.HasFlag(RoleSpawnFlags.UseSpawnpoint))
             {
                 e.Player.Teleport(room);
             }
@@ -70,7 +74,7 @@ namespace RoleModifications
             {
                 if (e.Player.GetCustomRoles().Any() && config.IgnoreCustomRoles)
                     return;
-                e.Player.Teleport(RoomType.Pocket);
+                e.Player.EnableEffect(EffectType.PocketCorroding);
             }
 
             else if (e.Attacker.Role.Type == RoleTypeId.Scp096 && config.scp096OneShot)

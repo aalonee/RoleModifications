@@ -9,6 +9,7 @@ using System.ComponentModel;
 using PlayerRoles;
 using Exiled.API.Enums;
 using PluginAPI.Roles;
+using UnityEngine;
 
 namespace RoleModifications
 {
@@ -31,7 +32,13 @@ namespace RoleModifications
         [Description("Modifies spawn room of the role")]
         public Dictionary<RoleTypeId, RoomType> SpawnRoom { get; set; } = new Dictionary<RoleTypeId, RoomType>()
         {
-            { RoleTypeId.Scp3114, RoomType.Hcz049 }
+            { RoleTypeId.Spectator, RoomType.Surface }
+        };
+
+        [Description("Modifies spawn coordinates of the role (overrides spawn room)")]
+        public Dictionary<RoleTypeId, Vector3> SpawnCoordinates { get; set; } = new Dictionary<RoleTypeId, Vector3>()
+        {
+            { RoleTypeId.Spectator, new Vector3(0, 0, 0) }
         };
 
         [Description("Modifies inventory of the role")]
