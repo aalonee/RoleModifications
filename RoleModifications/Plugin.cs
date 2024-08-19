@@ -8,6 +8,7 @@ using Exiled.API.Features;
 using Exiled;
 using Exiled.Events;
 using Exiled.API.Enums;
+using Exiled.Events.Handlers;
 
 namespace RoleModifications
 {
@@ -16,11 +17,14 @@ namespace RoleModifications
         public override string Name { get; } = "RoleModifications";
         public override string Author { get; } = "alone";
         public override string Prefix { get; } = "RoleModifications";
-        public override PluginPriority Priority { get; } = PluginPriority.Higher;
+        public override PluginPriority Priority { get; } = PluginPriority.Default;
         public override Version Version { get; } = new Version(1, 0, 0);
 
         public static RoleModifications plugin { get; private set; }
         private EventHandlers _EventHandlers;
+        public Dictionary<string, ZoneType> PlayerZones { get; set; } = new Dictionary<string, ZoneType>();
+        public List<RoomType> SafeRooms { get; set; } = new List<RoomType> { RoomType.LczAirlock, RoomType.LczCrossing, RoomType.LczCurve, RoomType.LczStraight, RoomType.LczTCross, RoomType.HczTCross, RoomType.HczCrossing, RoomType.HczStraight, RoomType.EzCrossing, RoomType.EzStraight, RoomType.EzTCross };
+
         public override void OnEnabled()
         {
             plugin = this;

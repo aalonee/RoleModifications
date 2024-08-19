@@ -10,6 +10,10 @@ using Exiled.API.Features.DamageHandlers;
 using Exiled.CustomRoles.API.Features;
 using Exiled.CustomRoles.API;
 using PlayerRoles;
+using PlayerRoles.PlayableScps.Scp106;
+using CustomPlayerEffects;
+using PluginAPI.Events;
+using Exiled.API.Extensions;
 
 namespace RoleModifications
 {
@@ -70,11 +74,17 @@ namespace RoleModifications
                 e.DamageHandler.Damage = 9999999;
             }
 
-            else if (e.Attacker.Role.Type == RoleTypeId.Scp106 && config.scp106OneShot)
+            else if (e.Attacker.Role.Type == RoleTypeId.Scp106 && config.scp106OneShot && e.Amount > 5)
             {
                 if (e.Player.GetCustomRoles().Any() && config.IgnoreCustomRoles)
                     return;
+                if (!EventManager.ExecuteEvent(new Scp106TeleportPlayerEvent(e.Attacker.ReferenceHub, e.Player.ReferenceHub)))
+                {
+                    return;
+                }
+                e.Player.DisableEffect(EffectType.Corroding);
                 e.Player.EnableEffect(EffectType.PocketCorroding);
+                RoleModifications.plugin.PlayerZones.Add(e.Player.UserId, e.Player.CurrentRoom.Zone);
             }
 
             else if (e.Attacker.Role.Type == RoleTypeId.Scp096 && config.scp096OneShot)
